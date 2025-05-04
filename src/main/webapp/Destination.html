@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Trip</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+      body {
+    background: linear-gradient(270deg, #030d15, #585470, #21214e);
+    padding-top: 60px; /* Adjust this value to give space for the navbar */
+}
+
+nav {
+    height: 50px; /* Reduce height */
+    background-color: #333; /* Darker background for visibility */
+    color: white; /* Text color */
+    padding: 0 10px; /* Reduce padding */
+    display: flex;
+    justify-content: space-between; /* Align items */
+    align-items: center; /* Center vertically */
+    position: fixed; /* Fixed navbar at the top */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 14px; /* Adjust font size to reduce height */
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+#profileBtn {
+    margin-right: 20px;
+    cursor: pointer; /* Add pointer cursor to profile button */
+}
+
+#profileDropdown {
+    display: none; /* Initially hide the dropdown */
+    position: absolute;
+    right: 0;
+    top: 50px; /* Positioned just below the smaller navbar */
+    background: black;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#profileDropdown p {
+    padding: 10px;
+    margin: 0;
+}
+
+#profileDropdown button {
+    width: 100%;
+    padding: 10px;
+    background-color: #f56565;
+    color: white;
+    border: none;
+    border-radius: 0 0 5px 5px;
+    cursor: pointer;
+}
+
+#profileDropdown button:hover {
+    background-color: #c53030;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #1d4ed8;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #2563eb;
+}
+
+.content {
+    margin-top: 100px; /* Ensure content starts below the navbar */
+}
+
+    </style>
+</head>
+   <nav>
+        <div class="flex space-x-6">
+          <a href="index.html">Home</a>
+            <a href="travelling_mode.html"><i class="fas fa-car"></i> Rideshare</a>
+            <a href="Flight.html">Flights</a>
+            <a href="Destination.html">Destinations</a>
+            <a href="hotel.html">Hotels</a>
+            <a href="contact.html">Contact</a>
+            <a href="bookings.jsp"><i class="fas fa-check-circle"></i> Booked</a>
+        </div>
+
+        <!-- Profile section -->
+        <div class="profile-btn">
+            <button id="profileBtn" class="text-white font-bold py-2 px-4 rounded">
+                <i class="fas fa-user-circle fa-2x"></i>
+            </button>
+
+            <!-- Dropdown for profile -->
+            <div id="profileDropdown">
+                <p id="profileName">Name: Loading...</p>
+                <form action="LogoutServlet" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+<body class="flex justify-center items-center h-screen">
+    <div class="card w-1/3">
+        <h2 class="text-2xl font-bold mb-4 text-center">Book Your Trip</h2>
+        <form action="SubmitBookingServlet" method="post">
+            <div class="mb-4">
+                <label for="destination" class="block text-gray-700">Destination</label>
+                <input type="text" id="destination" name="destination" required class="w-full p-2 border rounded"/>
+            </div>
+            <div class="mb-4">
+                <label for="date" class="block text-gray-700">Travel Date</label>
+                <input type="date" id="date" name="travel_date" required class="w-full p-2 border rounded"/>
+            </div>
+            <div class="mb-4">
+                <label for="days" class="block text-gray-700">Number of Days</label>
+                <input type="number" id="days" name="number_of_days" required class="w-full p-2 border rounded" min="1"/>
+            </div>
+            <div class="mb-4">
+                <label for="transport_mode" class="block text-gray-700">Mode of Transport</label>
+                <select id="transport_mode" name="transport_mode" required class="w-full p-2 border rounded">
+                    <option value="bus">Bus</option>
+                    <option value="train">Train</option>
+                    <option value="flight">Flight</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="budget" class="block text-gray-700">Budget (₹)</label>
+                <input type="number" id="budget" name="budget" required class="w-full p-2 border rounded" min="1"/>
+            </div>
+            <div class="mb-4">
+                <label for="hotel_preference" class="block text-gray-700">Hotel Preference</label>
+                <input type="text" id="hotel_preference" name="hotel_preference" class="w-full p-2 border rounded"/>
+            </div>
+            <div class="mb-4">
+                <label for="payment_method">Payment Method:</label>
+<select name="payment_method" id="payment_method">
+    <option value="Credit Card">Credit Card</option>
+    <option value="Debit Card">Debit Card</option>
+    <option value="PayPal">PayPal</option>
+    <option value="Bank Transfer">Bank Transfer</option>
+</select>
+
+            </div>
+            <center>
+                <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Book Now</button>
+            </center>
+        </form>
+    </div>
+     <script>
+ document.getElementById('profileBtn').addEventListener('click', function() {
+	    const dropdown = document.getElementById('profileDropdown');
+	    
+	    // Toggle dropdown visibility
+	    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+
+	    // Fetch user details from ProfileServlet
+	    fetch('ProfileServlet')
+	        .then(response => {
+	            if (!response.ok) {
+	                console.error('HTTP error:', response.status);
+	                return { error: 'Failed to fetch user details' };
+	            }
+	            return response.json();
+	        })
+	        .then(data => {
+	            // Check if there's an error in the response
+	            if (data.error) {
+	                console.error('Error from server:', data.error);
+	                document.getElementById('profileName').innerText = `Error: ${data.error}`;
+	                document.getElementById('profileEmail').innerText = '';
+	            } else {
+	                // Update the dropdown with fetched username
+	                document.getElementById('profileName').innerText = `Username: ${data.username}`;
+	                document.getElementById('profileEmail').innerText = ''; // Not used anymore
+	            }
+	        })
+	        .catch(error => {
+	            console.error('Error fetching profile details:', error);
+	        });
+	});
+
+  </script>
+</body>
+</html>

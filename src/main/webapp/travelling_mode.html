@@ -1,0 +1,478 @@
+<html>
+ <head>
+  <title>
+   Booking Page
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f3f4f6;
+            position:relative;
+        }
+        .icon-large {
+            font-size: 2rem;
+        }
+        .nav-item {
+            cursor: pointer;
+        }
+        .nav-item.active {
+            animation: gradientAnimation 25s ease infinite;
+            background: linear-gradient(270deg, #030d15, #585470, #21214e);
+            background-size: 300% 300%;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .gradient-bg {
+            animation: gradientAnimation 25s ease infinite;
+            background: linear-gradient(270deg, #5e5683, #d5d2e5, #8383ac);
+            background-size: 300% 300%;
+        }
+        .gradient-button {
+            animation: gradientAnimation 25s ease infinite;
+            background: linear-gradient(270deg, #030d15, #585470, #21214e);
+            background-size: 300% 300%;
+        }
+        .input-shadow {
+          box-shadow:  0 4px 8px rgba(0, 0, 0, 0.2), inset 0 -1px 3px rgba(255, 255, 255, 0.2);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #333; /* Dark text color for headings */
+            margin-top: 20px; /* Space above headings */
+            margin-bottom: 10px; /* Space below headings */
+            font-weight: 600; /* Slightly bolder */
+        }
+
+        h1 {
+            font-size: 2.5rem; /* Size for main heading */
+        }
+
+        h2 {
+            font-size: 2rem; /* Size for subheading */
+        }
+
+        h3 {
+            font-size: 1.75rem; /* Size for sub-subheading */
+        }
+
+        h4 {
+            font-size: 1.5rem; /* Size for smaller heading */
+        }
+
+        h5 {
+            font-size: 1.25rem; /* Size for even smaller heading */
+        }
+
+        h6 {
+            font-size: 1rem; /* Size for the smallest heading */
+        }
+
+        /* Paragraph styles */
+        p {
+            color: #555; /* Softer text color for paragraphs */
+            margin-bottom: 1.5rem; /* Space below paragraphs */
+            font-size: 1rem; /* Standard paragraph size */
+            text-align: justify; /* Justified text for a cleaner look */
+        }
+
+        /* Emphasized text */
+        p strong {
+          animation: gradientAnimation 15s ease infinite; /* Animation for gradient */
+    color: linear-gradient(270deg, #bdb7b6, #302c42, #c4b6b3); /* Initial gradient */
+   
+ /* Tailwind's blue-600 for emphasis */
+            font-weight: bolder; /* Bold emphasized text */
+        }
+
+        p em {
+            font-style: italic; /* Italic style for emphasized text */
+        }
+  
+        .background-image {
+    background-image: url('https://images.pexels.com/photos/1420003/pexels-photo-1420003.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: gradientAnimation 15s ease infinite; /* Animation for gradient */
+    background: linear-gradient(270deg, #bdb7b6, #302c42, #c4b6b3); /* Initial gradient */
+    background-size: 300% 300%;
+
+}
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+body{
+  
+    animation: gradientAnimation 25s ease infinite; /* Animation for gradient */
+    background: linear-gradient(270deg, #030d15, #585470, #21214e); /* Initial gradient */
+    background-size: 300% 300%;
+}
+nav{
+          font-weight: bold;
+}
+
+
+
+
+
+
+  </style>
+  <script>
+   function showForm(type) {
+            const formContainer = document.getElementById('form-container');
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+
+            let formHtml = '';
+
+            if (type === 'flights') {
+                formHtml = `
+                    <div class="flex space-x-4 mb-4">
+                        <label class="flex items-center space-x-2">
+                            <input checked class="form-radio text-blue-600" name="trip_type" type="radio"/>
+                            <span>One Way</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input class="form-radio text-blue-600" name="trip_type" type="radio"/>
+                            <span>Round Trip</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input class="form-radio text-blue-600" name="trip_type" type="radio"/>
+                            <span>Multi City</span>
+                        </label>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-4">Book Flight</h2>`;
+            } else if (type === 'trains') {
+                formHtml = `<h2 class="text-2xl font-bold mb-4">Book Train</h2>`;
+            } else if (type === 'buses') {
+                formHtml = `<h2 class="text-2xl font-bold mb-4">Book Bus</h2>`;
+            } else if (type === 'cabs') {
+                formHtml = `<h2 class="text-2xl font-bold mb-4">Book Cab</h2>`;
+            } else if (type === 'insurance') {
+                formHtml = `
+                    <h2 class="text-2xl font-bold mb-4">Travel Policy</h2>
+                    <p><strong>Trip Cancellation or Interruption Insurance:</strong></p>
+                    <p><strong>Trip Cancellation:</strong> Reimburses you if you have to cancel your trip due to covered reasons, such as illness, injury, or the death of a family member. It often covers non-refundable trip costs like flights, hotels, or tours.</p>
+                    <p><strong>Trip Interruption:</strong> Reimburses you for the unused portion of your trip and any additional transportation costs if you need to return home early due to an emergency.</p>
+                    <p><strong>Medical Insurance:</strong></p>
+                    <p><strong>Emergency Medical Expenses:</strong> Covers costs of medical treatment if you become ill or injured while traveling.</p>
+                    <p><strong>Emergency Medical Evacuation:</strong> Provides coverage for emergency transportation to the nearest hospital or medical facility, or back to your home country if needed.</p>
+                    <p><strong>Baggage and Personal Belongings Coverage:</strong></p>
+                    <p>Protects against the loss, theft, or damage of your luggage and personal belongings during travel. Some policies also include coverage for delayed baggage.</p>
+                    <p><strong>Travel Delay Coverage:</strong></p>
+                    <p>Reimburses expenses incurred if your flight or other transportation is delayed for a significant period due to reasons like bad weather or mechanical issues. This typically includes hotel stays, meals, and additional transportation costs.</p>
+                    <p><strong>Accidental Death and Dismemberment (AD&D):</strong></p>
+                    <p>Provides compensation if an accident during your trip results in death, loss of limbs, or permanent disability.</p>
+                    <p><strong>Missed Connection Insurance:</strong></p>
+                    <p>Covers additional expenses you might face if you miss a connecting flight or other transportation due to reasons beyond your control, like a delay in the initial flight.</p>
+                    <p><strong>Rental Car Insurance:</strong></p>
+                    <p>Covers damage or theft of a rental car while you are traveling. This can be an important add-on if you're renting a car at your destination.</p>
+                    <p><strong>Optional or Add-on Coverage:</strong></p>
+                    <p><strong>Cancel for Any Reason (CFAR):</strong> An optional add-on that allows you to cancel your trip for any reason not covered by standard trip cancellation insurance and still receive partial reimbursement (usually up to 50-75%).</p>
+                    <p><strong>Pre-existing Medical Conditions Waiver:</strong> Some policies offer coverage for pre-existing medical conditions if certain requirements are met (such as purchasing the policy within a specific timeframe after booking your trip).</p>
+                    <p><strong>Adventure Sports or Hazardous Activities Coverage:</strong> If you plan to participate in risky activities like skiing, scuba diving, or mountaineering, you may need to purchase additional coverage specifically for these activities.</p>
+                    <p><strong>Terrorism Coverage:</strong> Some travel insurance plans will cover trip cancellations or delays if a terrorist attack occurs at your destination or if an attack affects your travel.</p>
+                    <p><strong>What Is Usually Not Covered:</strong></p>
+                    <p>Routine medical checkups: Regular doctor visits or tests that are not urgent or related to an emergency are generally not covered.</p>
+                    <p>War or Civil Unrest: Many travel insurance policies do not cover losses due to acts of war or civil unrest, unless specified.</p>
+                    <p>Known Events: If you purchase insurance after a natural disaster, strike, or another known event is announced, it might not cover cancellations or delays caused by that event.</p>
+                    <p>Extreme Sports: Unless you purchase special coverage, many policies do not cover injuries or accidents caused by participating in extreme or high-risk sports.</p>`;
+            }
+
+            if (type !== 'insurance') {
+                formHtml += `
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700">From</label>
+                            <div class="bg-gray-100 p-4 rounded-lg input-shadow">
+                                <select class="w-full bg-gray-100 border-none focus:outline-none">
+                                    <option>Delhi</option>
+                                    <option>Mumbai</option>
+                                    <option>Bengaluru</option>
+                                    <option>Chennai</option>
+                                    <option>Kolkata</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700">To</label>
+                            <div class="bg-gray-100 p-4 rounded-lg input-shadow">
+                                <select class="w-full bg-gray-100 border-none focus:outline-none">
+                                    <option>Delhi</option>
+                                    <option>Mumbai</option>
+                                    <option>Bengaluru</option>
+                                    <option>Chennai</option>
+                                    <option>Kolkata</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700">Departure</label>
+                            <div class="bg-gray-100 p-4 rounded-lg input-shadow">
+                                <input class="w-full bg-gray-100 border-none focus:outline-none" type="date"/>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700">Return</label>
+                            <div class="bg-gray-100 p-4 rounded-lg input-shadow">
+                                <input class="w-full bg-gray-100 border-none focus:outline-none" type="date"/>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700">Travellers & Class</label>
+                            <div class="bg-gray-100 p-4 rounded-lg input-shadow">
+                                <select class="w-full bg-gray-100 border-none focus:outline-none">
+                                    <option>1 Traveller, Economy</option>
+                                    <option>1 Traveller, Premium Economy</option>
+                                    <option>1 Traveller, Business</option>
+                                    <option>2 Travellers, Economy</option>
+                                    <option>2 Travellers, Premium Economy</option>
+                                    <option>2 Travellers, Business</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Select a special fare</label>
+                        <div class="flex space-x-4">
+                            <button class="gradient-button text-white px-4 py-2 rounded">EXTRA SAVINGS</button>
+                            <label class="flex items-center space-x-2">
+                                <input checked class="form-radio text-blue-600" name="fare_type" type="radio"/>
+                                <span>Regular</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input class="form-radio text-blue-600" name="fare_type" type="radio"/>
+                                <span>Student</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input class="form-radio text-blue-600" name="fare_type" type="radio"/>
+                                <span>Senior Citizen</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input class="form-radio text-blue-600" name="fare_type" type="radio"/>
+                                <span>Armed Forces</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input class="form-radio text-blue-600" name="fare_type" type="radio"/>
+                                <span>Doctor and Nurses</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="gradient-button text-white px-8 py-4 rounded-full text-xl" onclick="confirmBooking('${type}')">BOOK NOW</button>
+                    </div>`;
+            }
+
+            formContainer.innerHTML = formHtml;
+            document.getElementById(type).classList.add('active');
+        }
+
+        function confirmBooking(type) {
+            let bookingType = '';
+            if (type === 'flights') {
+                bookingType = 'Flight';
+            } else if (type === 'trains') {
+                bookingType = 'Train';
+            } else if (type === 'buses') {
+                bookingType = 'Bus';
+            } else if (type === 'cabs') {
+                bookingType = 'Cab';
+            } else if (type === 'insurance') {
+                bookingType = 'Travel Insurance';
+            }
+
+            const modal = document.getElementById('myModal');
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = `<span class="close" onclick="closeModal()">&times;</span><p>${bookingType} booked successfully!</p>`;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('myModal');
+            modal.style.display = "none";
+        }
+  </script>
+ </head>
+ <body>
+          <header class="flex justify-between items-center p-6">
+                    <div class="flex items-center">
+                     
+                        <h1 class="text-2xl font-bold mb-4">
+                            TravelX<span class="text-blue-500"> </span>
+                          </h1>
+                    </div>
+                    <nav class="flex space-x-6">
+                        <a class="hover:underline" href="index.html">Home</a>
+                        <a class="hover:underline" href=Destination.html#">Destinations</a>
+                        <a class="hover:underline" href="hotel.html"> Hotels</a>
+                        <a class="hover:underline" href="contact.html">Contact</a>
+                        <button id="profileBtn" class="text-white font-bold py-2 px-4 rounded">
+    <i class="fas fa-user-circle fa-2x"></i> <!-- Profile Icon -->
+  </button>
+
+  <!-- Dropdown that displays user details and logout option -->
+  <div id="profileDropdown" style="display: none; position: absolute; right: 0; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <p id="profileName">Name: Loading...</p>
+    <form action="LogoutServlet" method="post">
+        <button type="submit" class="mt-6 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
+            Logout
+        </button>
+    </form>
+</div>
+                    </nav>
+                    <div class="flex items-center space-x-4">
+                      
+                    </div>
+                </header>
+                <main class="flex-grow flex flex-col justify-center items-center text-center px-6">
+                    <div id="hero">
+                        <h1 class="text-6xl font-bold mb-4" style="font-family: Palace Script MT;" style="font-weight: bold;">Book the best Travellers</h1>
+                       
+                    </div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full flex items-center" onclick="explore()">
+                        Explore
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </button><br>
+                </main>
+                
+  <div class="container mx-auto mt-4">
+   <div class="bg-white rounded-lg shadow-lg p-6 gradient-bg">
+    <div class="flex justify-between items-center border-b pb-4 mb-4">
+     <div class="flex space-x-8">
+      <a class="text-gray-600 nav-item flex items-center space-x-1" href="#" id="flights" onclick="showForm('flights')">
+       <i class="fas fa-plane icon-large">
+       </i>
+       <span>
+        Flights
+       </span>
+      </a>
+      <a class="text-gray-600 nav-item flex items-center space-x-1" href="#" id="trains" onclick="showForm('trains')">
+       <i class="fas fa-train icon-large">
+       </i>
+       <span>
+        Trains
+       </span>
+      </a>
+      <a class="text-gray-600 nav-item flex items-center space-x-1" href="#" id="buses" onclick="showForm('buses')">
+       <i class="fas fa-bus icon-large">
+       </i>
+       <span>
+        Buses
+       </span>
+      </a>
+      <a class="text-gray-600 nav-item flex items-center space-x-1" href="#" id="cabs" onclick="showForm('cabs')">
+       <i class="fas fa-taxi icon-large">
+       </i>
+       <span>
+        Cabs
+       </span>
+      </a>
+      <a class="text-gray-600 nav-item flex items-center space-x-1" href="#" id="insurance" onclick="showForm('insurance')">
+       <i class="fas fa-shield-alt icon-large">
+       </i>
+       <span>
+        Travel Policy
+       </span>
+      </a>
+     </div>
+    </div>
+    <div id="form-container">
+    </div>
+   </div>
+  </div>
+  <div class="modal" id="myModal">
+   <div class="modal-content" id="modal-content">
+    <span class="close" onclick="closeModal()">
+     ×
+    </span>
+    <p>
+    </p>
+   </div>
+  </div>
+   <script>
+ document.getElementById('profileBtn').addEventListener('click', function() {
+	    const dropdown = document.getElementById('profileDropdown');
+	    
+	    // Toggle dropdown visibility
+	    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+
+	    // Fetch user details from ProfileServlet
+	    fetch('ProfileServlet')
+	        .then(response => {
+	            if (!response.ok) {
+	                console.error('HTTP error:', response.status);
+	                return { error: 'Failed to fetch user details' };
+	            }
+	            return response.json();
+	        })
+	        .then(data => {
+	            // Check if there's an error in the response
+	            if (data.error) {
+	                console.error('Error from server:', data.error);
+	                document.getElementById('profileName').innerText = `Error: ${data.error}`;
+	                document.getElementById('profileEmail').innerText = '';
+	            } else {
+	                // Update the dropdown with fetched username
+	                document.getElementById('profileName').innerText = `Username: ${data.username}`;
+	                document.getElementById('profileEmail').innerText = ''; // Not used anymore
+	            }
+	        })
+	        .catch(error => {
+	            console.error('Error fetching profile details:', error);
+	        });
+	});
+
+  </script>
+ </body>
+</html>

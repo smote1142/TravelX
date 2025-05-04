@@ -1,0 +1,755 @@
+<html>
+  <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+        /* Add hover effect for hotel cards */
+        .hotel-card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+      
+        .hotel-card:hover {
+          transform: scale(1.05); /* Scale up the card slightly */
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Add a larger shadow */
+        }
+        /* Enhanced Book Now Button Styles */
+
+        .background-image {
+    background-image: url('https://images.pexels.com/photos/1420003/pexels-photo-1420003.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: gradientAnimation 15s ease infinite; /* Animation for gradient */
+    background: linear-gradient(270deg, #bdb7b6, #302c42, #c4b6b3); /* Initial gradient */
+    background-size: 300% 300%;
+
+}
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+body{
+  
+    animation: gradientAnimation 25s ease infinite; /* Animation for gradient */
+    background: linear-gradient(270deg, #030d15, #585470, #21214e); /* Initial gradient */
+    background-size: 300% 300%;
+}
+.search {
+           
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 10px rgba(244, 242, 242, 0.7), /* Glow effect */
+                        0 0 30px rgba(243, 241, 241, 0.5); /* Additional glow */
+          
+            color: rgb(34, 35, 33);
+            transition: box-shadow 0.3s ease;
+            width:600px;
+            height: 40px;
+            border-radius: 10px;
+            
+        }
+        .search:hover {
+            box-shadow: 0 0 30px rgb(242, 238, 242), /* Stronger glow on hover */
+                        0 0 60px rgba(243, 240, 243, 0.7); /* Additional stronger glow */
+        }
+  
+        .hotel-card:hover{
+            box-shadow: 0 0 30px rgb(100, 76, 100), /* Stronger glow on hover */
+                        0 0 60px rgba(198, 190, 198, 0.7);
+
+        }
+     </style>
+      
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+      <!-- Top Search Bar -->
+      <header class="flex justify-between items-center p-6">
+        <div class="flex items-center">
+         
+            <h1 class="text-2xl font-bold mb-4">
+                TravelX<span class="text-blue-500"> Hotel</span>
+              </h1>
+        </div>
+        <nav class="flex space-x-6">
+             <a class="hover:underline" href="index.html">Home</a>
+            <a class="hover:underline" href="Flight.html">Flights</a>
+            <a class="hover:underline" href="#">Destinations</a>
+            <a class="hover:underline" href="hotel.html"> Hotels</a>
+            <a class="hover:underline" href="contact.html">Contact</a>
+        </nav>
+      <div class="relative inline-block">
+  <!-- Profile Button with Icon -->
+  <button id="profileBtn" class="text-white font-bold py-2 px-4 rounded">
+    <i class="fas fa-user-circle fa-2x"></i> <!-- Profile Icon -->
+  </button>
+
+  <!-- Dropdown that displays user details and logout option -->
+  <div id="profileDropdown" style="display: none; position: absolute; right: 0; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <p id="profileName">Name: Loading...</p>
+    <form action="LogoutServlet" method="post">
+        <button type="submit" class="mt-6 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
+            Logout
+        </button>
+    </form>
+</div>
+
+</div>
+    </header>
+    <main class="flex-grow flex flex-col justify-center items-center text-center px-6">
+        <div id="hero">
+            <h1 class="text-6xl font-bold mb-4" style="font-family: Palace Script MT;">Find the Best stay</h1>
+           
+        </div>
+        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full flex items-center" onclick="explore()">
+            Explore
+            <i class="fas fa-arrow-right ml-2"></i>
+        </button><br>
+    </main>
+    
+
+      <!-- Middle Search Bar -->
+      <div class="flex justify-center mb-6 " style="font-weight: bold;" style="color:rgb(146, 146, 146)">
+        
+        <input class="search"
+          type="text"
+          id="searchBar"
+          placeholder="  Search Hotels..."
+          class="w-1/2 p-2 border rounded-lg"
+          onkeyup="filterHotels()"
+        />
+      </div>
+<br>
+      <!-- Hotel Grid -->
+      <div
+        id="hotelGrid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+      >
+        <!-- Hotel Card 1 -->
+        <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="relative">
+              <img
+                alt="Hotel Stanford"
+                class="w-full h-48 object-cover"
+                height="400"
+                src="https://storage.googleapis.com/a1aa/image/dFs8nHyostoXJZKvQr3YQqn8nUfJb036ArP5YFoYCKFfGYjTA.jpg"
+                width="600"
+              />
+              <span
+                class="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded"
+                >Featured</span
+              >
+              <i
+                class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+                onclick="addToWishlist(this)"
+              ></i>
+            </div>
+            <div class="p-4">
+              <h2 class="hotel-name text-lg font-semibold">Hotel Rama International</h2>
+              <p class="text-sm text-gray-600">2.8 / 5 Average · 2 Reviews</p>
+              <p class="text-sm text-gray-600">
+                from <span class="text-blue-500">10,000/night</span>
+              </p>
+              <!-- Book Now Button -->
+             <center> <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html"> BOOK NOW</a></center> 
+            </div>
+          </div>
+        <!-- Hotel Card 2 -->
+        <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="relative">
+            <img
+              alt="EnVision Hotel Boston"
+              class="w-full h-48 object-cover"
+              height="400"
+              src="https://storage.googleapis.com/a1aa/image/w2L9ixk61LZcENT8V07xZ9ODnDZiJ3verYXT4ea9SsH8GYjTA.jpg"
+              width="600"
+            />
+            <i
+              class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+              onclick="addToWishlist(this)"
+            ></i>
+          </div>
+          <div class="p-4">
+            <h2 class="hotel-name text-lg font-semibold"> Hotel Silver INN</h2>
+            <p class="text-sm text-gray-600">4.4 / 5 Excellent · 2 Reviews</p>
+            <p class="text-sm text-gray-600">
+              from <span class="text-blue-500">244,00/night</span>
+            </p>
+             <!-- Book Now Button -->
+             <center> <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">  BOOK NOW</a></center> 
+          </div>
+        </div>
+
+        <!-- Hotel Card 3 -->
+        <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="relative">
+            <img
+              alt="Parian Holiday Villas"
+              class="w-full h-48 object-cover"
+              height="400"
+              src="https://storage.googleapis.com/a1aa/image/ujmbZFdxmnJRNVdhKrfqffgeer1XlPKfCPbz1bQcJLb0wB24E.jpg"
+              width="600"
+            />
+            <span
+              class="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded"
+              >Featured</span
+            >
+            <i
+              class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+              onclick="addToWishlist(this)"
+            ></i>
+          </div>
+          <div class="p-4">
+            <h2 class="hotel-name text-lg font-semibold">Lemone Tree</h2>
+            <p class="text-sm text-gray-600">4.5 / 5 Excellent · 3 Reviews</p>
+            <p class="text-sm text-gray-600">
+              from <span class="text-blue-500">23,400€/night</span>
+            </p>
+             <!-- Book Now Button -->
+             <center> <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">  BOOK NOW</a></center> 
+          </div>
+        </div>
+
+        <!-- Hotel Card 4 -->
+        <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="relative">
+            <img
+              alt="Hyatt Centric Times Square"
+              class="w-full h-48 object-cover"
+              height="400"
+              src="https://storage.googleapis.com/a1aa/image/PgkVneQkdRTKOabU4xjseQLMj0PX3MCxTdHxJjEZqLbBHYjTA.jpg"
+              width="600"
+            />
+            <i
+              class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+              onclick="addToWishlist(this)"
+            ></i>
+          </div>
+          <div class="p-4">
+            <h2 class="hotel-name text-lg font-semibold">Athithi</h2>
+            <p class="text-sm text-gray-600">4.7 / 5 Excellent · 3 Reviews</p>
+            <p class="text-sm text-gray-600">
+              from <span class="text-blue-500">246,67/night</span>
+            </p>
+             <!-- Book Now Button -->
+             <center> <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">  BOOK NOW</a></center> 
+          </div>
+        </div>
+
+        <!-- Hotel Card 5 -->
+        <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="relative">
+            <img
+              alt="Redac Gateway Hotel"
+              class="w-full h-48 object-cover"
+              height="400"
+              src="https://storage.googleapis.com/a1aa/image/OgwvzabfPfkf7Jn0ThvqTqf3tzUi5lrDGKeDnhVP4bQF4AbcC.jpg"
+              width="600"
+            />
+            <i
+              class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+              onclick="addToWishlist(this)"
+            ></i>
+          </div>
+          <div class="p-4">
+            <h2 class="hotel-name text-lg font-semibold">Lotus</h2>
+            <p class="text-sm text-gray-600">4.5 / 5 Excellent · 2 Reviews</p>
+            <p class="text-sm text-gray-600">
+              from <span class="text-blue-500">29,334/night</span>
+            </p>
+             <!-- Book Now Button -->
+             <center><button class="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-pink-600">     Book Now     </button></center> 
+          </div>
+        </div>
+
+        <!-- Hotel Card 6 -->
+        <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="relative">
+            <img
+              alt="Hotel Ascot Opera"
+              class="w-full h-48 object-cover"
+              height="400"
+              src="https://storage.googleapis.com/a1aa/image/7Xywmyhf2WS2YqqvPv15GiT3qNR1Pd8YRs1KfYxK0P79GYjTA.jpg"
+              width="600"
+            />
+            <i
+              class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+              onclick="addToWishlist(this)"
+            ></i>
+          </div>
+          <div class="p-4">
+            <h2 class="hotel-name text-lg font-semibold">Hotel Lotus</h2>
+            <p class="text-sm text-gray-600">3.5 / 5 Average · 1 Review</p>
+            <p class="text-sm text-gray-600">
+              from <span class="text-blue-500">21,500/ night</span>
+            </p>
+             <!-- Book Now Button -->
+             <center> <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">   BOOK NOW</a></center> 
+          </div>
+        </div>
+
+        <!-- Hotel Card 7 -->
+        <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="relative">
+            <img
+              alt="Park West Hotel"
+              class="w-full h-48 object-cover"
+              height="400"
+              src="https://storage.googleapis.com/a1aa/image/oXcRUu1Pod4AH5j8f8fAKf42kD4tBvgjiGavEEZ2bOY1NwGnA.jpg"
+              width="600"
+            />
+            <i
+              class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+              onclick="addToWishlist(this)"
+            ></i>
+          </div>
+          <div class="p-4">
+            <h2 class="hotel-name text-lg font-semibold">Crem Bell</h2>
+            <p class="text-sm text-gray-600">3 / 5 Average · 1 Review</p>
+            <p class="text-sm text-gray-600">
+              from <span class="text-blue-500">234,00 /night</span>
+            </p>
+             <!-- Book Now Button -->
+             <center> <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">  BOOK NOW</a></center> 
+          </div>
+        </div>
+
+        <!-- Hotel Card 8 -->
+        <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="relative">
+            <img
+              alt="Dylan Hotel"
+              class="w-full h-48 object-cover"
+              height="400"
+              src="https://storage.googleapis.com/a1aa/image/xGvlBNSfCvXwFStzthumjlJTnEsMd6YTpC9kJzNII8GiDsxJA.jpg"
+              width="600"
+            />
+            <i
+              class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+              onclick="addToWishlist(this)"
+            ></i>
+          </div>
+          <div class="p-4">
+            <h2 class="hotel-name text-lg font-semibold">The Salt</h2>
+            <p class="text-sm text-gray-600">4 / 5 Excellent · 2 Reviews</p>
+            <p class="text-sm text-gray-600">
+              from <span class="text-blue-500">267,67 / night</span>
+            </p>
+             <!-- Book Now Button -->
+             <center> <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">    BOOK NOW</a></center> 
+          </div>
+        </div>
+         <!-- Hotel Card 1 -->
+         <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="relative">
+              <img
+                alt="Hotel Stanford"
+                class="w-full h-48 object-cover"
+                height="400"
+                src="https://storage.googleapis.com/a1aa/image/dFs8nHyostoXJZKvQr3YQqn8nUfJb036ArP5YFoYCKFfGYjTA.jpg"
+                width="600"
+              />
+              <span
+                class="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded"
+                >Featured</span
+              >
+              <i
+                class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+                onclick="addToWishlist(this)"
+              ></i>
+            </div>
+            <div class="p-4">
+              <h2 class="hotel-name text-lg font-semibold">Hotel Rama International</h2>
+              <p class="text-sm text-gray-600">2.8 / 5 Average · 2 Reviews</p>
+              <p class="text-sm text-gray-600">
+                from <span class="text-blue-500">10,000/night</span>
+              </p>
+              <!-- Book Now Button -->
+             <center> <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">   BOOK NOW</a></center> 
+            </div>
+          </div>
+        <!-- Hotel Card 2 -->
+        <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="relative">
+            <img
+              alt="EnVision Hotel Boston"
+              class="w-full h-48 object-cover"
+              height="400"
+              src="https://storage.googleapis.com/a1aa/image/w2L9ixk61LZcENT8V07xZ9ODnDZiJ3verYXT4ea9SsH8GYjTA.jpg"
+              width="600"
+            />
+            <i
+              class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+              onclick="addToWishlist(this)"
+            ></i>
+          </div>
+          <div class="p-4">
+            <h2 class="hotel-name text-lg font-semibold"> Hotel Silver INN</h2>
+            <p class="text-sm text-gray-600">4.4 / 5 Excellent · 2 Reviews</p>
+            <p class="text-sm text-gray-600">
+              from <span class="text-blue-500">244,00/night</span>
+            </p>
+             <!-- Book Now Button -->
+             <center> <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">
+    BOOK NOW
+</a></center> 
+          </div>
+        </div>
+
+        <!-- Hotel Card 3 -->
+        <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="relative">
+            <img
+              alt="Parian Holiday Villas"
+              class="w-full h-48 object-cover"
+              height="400"
+              src="https://storage.googleapis.com/a1aa/image/ujmbZFdxmnJRNVdhKrfqffgeer1XlPKfCPbz1bQcJLb0wB24E.jpg"
+              width="600"
+            />
+            <span
+              class="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded"
+              >Featured</span
+            >
+            <i
+              class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+              onclick="addToWishlist(this)"
+            ></i>
+          </div>
+          <div class="p-4">
+            <h2 class="hotel-name text-lg font-semibold">Lemone Tree</h2>
+            <p class="text-sm text-gray-600">4.5 / 5 Excellent · 3 Reviews</p>
+            <p class="text-sm text-gray-600">
+              from <span class="text-blue-500">23,400€/night</span>
+            </p>
+             <!-- Book Now Button -->
+             <center> <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">
+    BOOK NOW
+</a></center> 
+          </div>
+        </div>
+
+        <!-- Hotel Card 4 -->
+        <div class="hotel-card bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="relative">
+            <img
+              alt="Hyatt Centric Times Square"
+              class="w-full h-48 object-cover"
+              height="400"
+              src="https://storage.googleapis.com/a1aa/image/PgkVneQkdRTKOabU4xjseQLMj0PX3MCxTdHxJjEZqLbBHYjTA.jpg"
+              width="600"
+            />
+            <i
+              class="far fa-heart absolute top-2 right-2 text-white text-xl cursor-pointer"
+              onclick="addToWishlist(this)"
+            ></i>
+          </div>
+          <div class="p-4">
+            <h2 class="hotel-name text-lg font-semibold">Athithi</h2>
+            <p class="text-sm text-gray-600">4.7 / 5 Excellent · 3 Reviews</p>
+            <p class="text-sm text-gray-600">
+              from <span class="text-blue-500">246,67/night</span>
+            </p>
+             <!-- Book Now Button -->
+             <center> <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">
+    BOOK NOW
+</a></center> 
+          </div>
+        </div>
+        <br>
+
+      </div>
+    </div>
+
+    <!-- Pop-up Message -->
+    <div
+      id="wishlist-popup"
+      class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg opacity-0 transition-opacity duration-300"
+    >
+      Added to your wishlist!
+    </div>
+ <script>
+ document.getElementById('profileBtn').addEventListener('click', function() {
+	    const dropdown = document.getElementById('profileDropdown');
+	    
+	    // Toggle dropdown visibility
+	    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+
+	    // Fetch user details from ProfileServlet
+	    fetch('ProfileServlet')
+	        .then(response => {
+	            if (!response.ok) {
+	                console.error('HTTP error:', response.status);
+	                return { error: 'Failed to fetch user details' };
+	            }
+	            return response.json();
+	        })
+	        .then(data => {
+	            // Check if there's an error in the response
+	            if (data.error) {
+	                console.error('Error from server:', data.error);
+	                document.getElementById('profileName').innerText = `Error: ${data.error}`;
+	                document.getElementById('profileEmail').innerText = '';
+	            } else {
+	                // Update the dropdown with fetched username
+	                document.getElementById('profileName').innerText = `Username: ${data.username}`;
+	                document.getElementById('profileEmail').innerText = ''; // Not used anymore
+	            }
+	        })
+	        .catch(error => {
+	            console.error('Error fetching profile details:', error);
+	        });
+	});
+
+  </script>
+    <script>
+      // Function to handle heart icon click
+      function addToWishlist(icon) {
+        // Toggle the heart icon color
+        if (icon.classList.contains('far')) {
+          icon.classList.remove('far');
+          icon.classList.add('fas', 'text-red-500');
+        } else {
+          icon.classList.remove('fas', 'text-red-500');
+          icon.classList.add('far');
+        }
+
+        // Show the pop-up message
+        const popup = document.getElementById('wishlist-popup');
+        popup.classList.remove('opacity-0'); // Make the pop-up visible
+
+        // Hide the pop-up after 2 seconds
+        setTimeout(() => {
+          popup.classList.add('opacity-0');
+        }, 2000);
+      }
+
+      // Function to filter hotels based on search input
+      function filterHotels() {
+        const searchInput = document
+          .getElementById('searchBar')
+          .value.toLowerCase();
+        const hotelCards = document.querySelectorAll('.hotel-card');
+
+        hotelCards.forEach((card) => {
+          const hotelName = card
+            .querySelector('.hotel-name')
+            .textContent.toLowerCase();
+          if (hotelName.includes(searchInput)) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+    </script>
+    
+      <!-- Footer -->
+      <footer class="bg-black text-white py-8">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+         <div>
+          <h5 class="font-bold mb-4">
+           Information
+          </h5>
+          <ul>
+           <li>
+            <a class="text-gray-400" href="#">
+             About us
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Online enquiry
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Call us
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             General enquiries
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Booking conditions
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Privacy policy
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Refund policy
+            </a>
+           </li>
+          </ul>
+         </div>
+         <div>
+          <h5 class="font-bold mb-4">
+           Experiences
+          </h5>
+          <ul>
+           <li>
+            <a class="text-gray-400" href="#">
+             Beach
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Adventure
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Wildlife
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Honeymoon
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Culture &amp; heritage
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Hill station
+            </a>
+           </li>
+          </ul>
+         </div>
+         <div>
+          <h5 class="font-bold mb-4">
+           Themes
+          </h5>
+          <ul>
+           <li>
+            <a class="text-gray-400" href="#">
+             Party
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Wedding
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Group tours
+            </a>
+           </li>
+          </ul>
+         </div>
+         <div>
+          <h5 class="font-bold mb-4">
+           Popular destinations
+          </h5>
+          <ul>
+           <li>
+            <a class="text-gray-400" href="#">
+             Leh-Ladakh
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Manali
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Ooty
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Alleppey
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Darjeeling
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Goa
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Munnar
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Coorg
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Mysore
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Gur
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Kabini
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Jaipur
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Kodaikanal
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Agra
+            </a>
+           </li>
+           <li>
+            <a class="text-gray-400" href="#">
+             Shimla
+            </a>
+           </li>
+          </ul>
+         </div>
+        </div>
+        <div class="container mx-auto mt-8 text-center">
+         <p>
+          Phone: +91-80-41127931
+         </p>
+         <p>
+          Email: info@exactdesign.co
+         </p>
+         <p>
+          Address: 1st Main, Bucharest, 2nd Stage Raiffeisen Tower, Bucharest - 400040, Romania
+         </p>
+        </div>
+       </footer>
+  </body>
+</html>

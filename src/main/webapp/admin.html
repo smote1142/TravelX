@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+           button {
+    transition: box-shadow 0.3s ease;
+  }
+
+  button:hover {
+    box-shadow: 0 0 25px white, 0 0 50px whitesmoke; /* Brighter glow on hover */
+  }
+           body {
+      animation: gradientAnimation 25s ease infinite;
+      background: linear-gradient(270deg, #030d15, #585470, #21214e);
+      background-size: 300% 300%;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -150px;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: rise 20s infinite;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateX(0) translateY(0);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateX(calc(-50% + 100px)) translateY(-800px);
+        opacity: 0;
+      }
+    }
+
+    .bubble:nth-child(1) { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.8); left: 20%; animation-delay: 0s; }
+    .bubble:nth-child(2) { width: 60px; height: 60px; background: rgba(255, 255, 255, 0.6); left: 50%; animation-delay: 5s; }
+    .bubble:nth-child(3) { width: 30px; height: 30px; background: rgba(255, 255, 255, 0.7); left: 70%; animation-delay: 2s; }
+    .bubble:nth-child(4) { width: 50px; height: 50px; background: rgba(255, 255, 255, 0.5); left: 30%; animation-delay: 4s; }
+    .bubble:nth-child(5) { width: 20px; height: 20px; background: rgba(255, 255, 255, 0.9); left: 80%; animation-delay: 6s; }
+    .bubble:nth-child(6) { width: 80px; height: 80px; background: rgba(255, 255, 255, 0.9); left: 80%; animation-delay: 1s; }
+  </style>
+</head>
+<body class="bg-gray-100 relative overflow-hidden" style=" animation: gradientAnimation 25s ease infinite;
+background: linear-gradient(270deg, #3b0738,  #c05cb6, #21214e);
+background-size: 300% 300%;">
+  <!-- Bubbles -->
+  <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+  <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+  <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+
+  <div class="flex relative z-10">
+    <!-- Sidebar -->
+    <div class="w-1/5 h-screen p-5" style="background: linear-gradient(to right, #c05cb6, #460a58);">
+      <div class="text-white text-2xl font-bold mb-10">TravelX</div>
+      <ul class="text-white space-y-4">
+        <li class="flex items-center space-x-2"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></li>
+        <li class="flex items-center space-x-2 cursor-pointer" id="manage-users"><i class="fas fa-user"></i><span>Manage Users</span></li>
+        <li class="flex items-center space-x-2" id="logout"><i class="fas fa-sign-out-alt"></i><span>Logout</span></li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-4/5 p-10">
+      <div class="flex justify-between items-center mb-10">
+        <h1 class="text-3xl font-bold">Admin Dashboard</h1>
+        <div class="flex items-center space-x-4">
+          <input class="p-2 border rounded" placeholder="Search..." type="text" />
+          <img alt="User" class="rounded-full" height="40" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqBezKKAEYvyEAPpiuo1WDE02x1_5LoujG7w&s" width="40"/>
+        </div>
+      </div>
+
+      <!-- User Table -->
+      <div class="p-5 rounded-lg shadow hidden backdrop-blur-md bg-white/30" id="user-section">
+        <table id="userTable" class="w-full text-white">
+          <thead class="bg-white/20 ">
+            <tr class="text-left">
+              <th class="p-3">ID</th>
+              <th class="p-3">Username</th>
+              <th class="p-3">Email</th>
+              <th class="p-3">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Demo User Data -->
+            <tr class="border-b border-white/20">
+              <td class="p-3">1</td>
+              <td class="p-3">snehal mote</td>
+              <td class="p-3">snehal@gmail.com</td>
+              <td class="p-3">
+                <button class="text-white px-3 py-1 rounded "
+                  style="background: linear-gradient(to right, #c05cb6, #460a58);">
+                  Delete
+                </button>
+              </td>
+            </tr>
+            <tr class="border-b border-white/20">
+              <td class="p-3">2</td>
+              <td class="p-3">harshada</td>
+              <td class="p-3">harshada@gmail.com</td>
+              <td class="p-3">
+                <button class="text-white px-3 py-1 rounded "
+                  style="background: linear-gradient(to right, #c05cb6, #460a58);">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Toggle visibility of user section
+    document.getElementById('manage-users').onclick = function () {
+      const section = document.getElementById('user-section');
+      section.classList.toggle('hidden');
+    };
+
+    // Handle Logout
+    document.getElementById('logout').onclick = function () {
+      // Perform any necessary logout operations (e.g., clear session, redirect to login page)
+      alert('Logging out...');
+      window.location.href = "login.html"; // Redirect to login page after logout
+    };
+  </script>
+</body>
+</html>

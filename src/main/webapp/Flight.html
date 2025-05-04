@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelX Flights</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        /* Add hover effect for flight cards */
+        .flight-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .flight-card:hover {
+            transform: scale(1.05); /* Scale up the card slightly */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Add a larger shadow */
+        }
+
+        body {
+            animation: gradientAnimation 25s ease infinite; /* Animation for gradient */
+            background: linear-gradient(270deg, #030d15, #585470, #21214e); /* Initial gradient */
+            background-size: 300% 300%;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .search {
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 10px rgba(244, 242, 242, 0.7), /* Glow effect */
+                0 0 30px rgba(243, 241, 241, 0.5); /* Additional glow */
+            color: rgb(34, 35, 33);
+            transition: box-shadow 0.3s ease;
+            width: 600px;
+            height: 40px;
+            border-radius: 10px;
+        }
+
+        .search:hover {
+            box-shadow: 0 0 30px rgb(242, 238, 242), /* Stronger glow on hover */
+                0 0 60px rgba(243, 240, 243, 0.7); /* Additional stronger glow */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <!-- Top Search Bar -->
+        <header class="flex justify-between items-center p-6">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-bold mb-4">TravelX<span class="text-blue-500"> Flights</span></h1>
+            </div>
+            <nav class="flex space-x-6">
+                <a class="hover:underline" href="index.html">Home</a>
+                <a class="hover:underline" href="hotel.html">Hotels</a>
+                <a class="hover:underline" href="#">Destinations</a>
+                <a class="hover:underline" href="Flight.html">Flights</a>
+                <a class="hover:underline" href="contact.html">Contact</a>
+            </nav>
+            <div class="relative inline-block">
+                <!-- Profile Button with Icon -->
+                <button id="profileBtn" class="text-white font-bold py-2 px-4 rounded">
+                    <i class="fas fa-user-circle fa-2x"></i> <!-- Profile Icon -->
+                </button>
+
+                <!-- Dropdown that displays user details and logout option -->
+                <div id="profileDropdown" style="display: none; position: absolute; right: 0; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                    <p id="profileName">Name: Loading...</p>
+                    <form action="LogoutServlet" method="post">
+                        <button type="submit" class="mt-6 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </header>
+        <main class="flex-grow flex flex-col justify-center items-center text-center px-6">
+            <div id="hero">
+                <h1 class="text-6xl font-bold mb-4" style="font-family: Palace Script MT;">Find Your Next Flight</h1>
+            </div>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full flex items-center" onclick="explore()">
+                Explore
+                <i class="fas fa-arrow-right ml-2"></i>
+            </button><br>
+        </main>
+
+        <!-- Middle Search Bar -->
+        <div class="flex justify-center mb-6" style="font-weight: bold; color: rgb(146, 146, 146)">
+            <input class="search" type="text" id="searchBar" placeholder="  Search Flights..." onkeyup="filterFlights()" />
+        </div>
+        <br>
+        <!-- Flight Grid -->
+        <div id="flightGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <!-- Flight Card 1 -->
+            <div class="flight-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h2 class="flight-name text-lg font-semibold">Flight to New York</h2>
+                    <p class="text-sm text-gray-600">Departure: 10:00 AM · Arrival: 2:00 PM</p>
+                    <p class="text-sm text-gray-600">
+                        Price: <span class="text-blue-500">₹15,000</span>
+                    </p>
+                    <!-- Book Now Button -->
+                    <form action="FlightsServlet" method="GET">
+                        <input type="hidden" name="user_id" value="${userId}"> <!-- Ensure this is set correctly -->
+                        <input type="hidden" name="flight_name" value="Flight to New York">
+                        <input type="hidden" name="departure_time" value="10:00 AM">
+                        <input type="hidden" name="arrival_time" value="2:00 PM">
+                        <input type="hidden" name="price" value="15000">
+                        <center><button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">BOOK NOW</button></center>
+                    </form>
+                </div>
+            </div>
+            <!-- Flight Card 2 -->
+            <div class="flight-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h2 class="flight-name text-lg font-semibold">Flight to London</h2>
+                    <p class="text-sm text-gray-600">Departure: 11:00 AM · Arrival: 3:00 PM</p>
+                    <p class="text-sm text-gray-600">
+                        Price: <span class="text-blue-500">₹50,000</span>
+                    </p>
+                    <!-- Book Now Button -->
+                    <form action="FlightsServlet" method="GET">
+                        <input type="hidden" name="user_id" value="${userId}"> <!-- Ensure this is set correctly -->
+                        <input type="hidden" name="flight_name" value="Flight to London">
+                        <input type="hidden" name="departure_time" value="11:00 AM">
+                        <input type="hidden" name="arrival_time" value="3:00 PM">
+                        <input type="hidden" name="price" value="50000">
+                        <center><button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">BOOK NOW</button></center>
+                    </form>
+                </div>
+            </div>
+            <!-- Flight Card 3 -->
+            <div class="flight-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h2 class="flight-name text-lg font-semibold">Flight to Sydney</h2>
+                    <p class="text-sm text-gray-600">Departure: 9:00 AM · Arrival: 7:00 PM</p>
+                    <p class="text-sm text-gray-600">
+                        Price: <span class="text-blue-500">₹40,000</span>
+                    </p>
+                    <!-- Book Now Button -->
+                    <form action="FlightsServlet" method="GET">
+                        <input type="hidden" name="user_id" value="${userId}"> <!-- Ensure this is set correctly -->
+                        <input type="hidden" name="flight_name" value="Flight to Sydney">
+                        <input type="hidden" name="departure_time" value="9:00 AM">
+                        <input type="hidden" name="arrival_time" value="7:00 PM">
+                        <input type="hidden" name="price" value="40000">
+                        <center><button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">BOOK NOW</button></center>
+                    </form>
+                </div>
+            </div>
+            <!-- Flight Card 4 -->
+            <div class="flight-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h2 class="flight-name text-lg font-semibold">Flight to Tokyo</h2>
+                    <p class="text-sm text-gray-600">Departure: 1:00 PM · Arrival: 6:00 PM</p>
+                    <p class="text-sm text-gray-600">
+                        Price: <span class="text-blue-500">₹35,000</span>
+                    </p>
+                    <!-- Book Now Button -->
+                    <form action="FlightsServlet" method="GET">
+                        <input type="hidden" name="user_id" value="${userId}"> <!-- Ensure this is set correctly -->
+                        <input type="hidden" name="flight_name" value="Flight to Tokyo">
+                        <input type="hidden" name="departure_time" value="1:00 PM">
+                        <input type="hidden" name="arrival_time" value="6:00 PM">
+                        <input type="hidden" name="price" value="35000">
+                        <center><button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">BOOK NOW</button></center>
+                    </form>
+                </div>
+            </div>
+            <!-- Flight Card 5 -->
+            <div class="flight-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h2 class="flight-name text-lg font-semibold">Flight to Paris</h2>
+                    <p class="text-sm text-gray-600">Departure: 12:30 PM · Arrival: 5:00 PM</p>
+                    <p class="text-sm text-gray-600">
+                        Price: <span class="text-blue-500">₹55,000</span>
+                    </p>
+                    <!-- Book Now Button -->
+                    <form action="FlightsServlet" method="GET">
+                        <input type="hidden" name="user_id" value="${userId}"> <!-- Ensure this is set correctly -->
+                        <input type="hidden" name="flight_name" value="Flight to Paris">
+                        <input type="hidden" name="departure_time" value="12:30 PM">
+                        <input type="hidden" name="arrival_time" value="5:00 PM">
+                        <input type="hidden" name="price" value="55000">
+                        <center><button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">BOOK NOW</button></center>
+                    </form>
+                </div>
+            </div>
+            <!-- Flight Card 6 -->
+            <div class="flight-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h2 class="flight-name text-lg font-semibold">Flight to Dubai</h2>
+                    <p class="text-sm text-gray-600">Departure: 3:00 AM · Arrival: 6:00 AM</p>
+                    <p class="text-sm text-gray-600">
+                        Price: <span class="text-blue-500">₹20,000</span>
+                    </p>
+                    <!-- Book Now Button -->
+                    <form action="FlightsServlet" method="GET">
+                        <input type="hidden" name="user_id" value="${userId}"> <!-- Ensure this is set correctly -->
+                        <input type="hidden" name="flight_name" value="Flight to Dubai">
+                        <input type="hidden" name="departure_time" value="3:00 AM">
+                        <input type="hidden" name="arrival_time" value="6:00 AM">
+                        <input type="hidden" name="price" value="20000">
+                        <center><button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">BOOK NOW</button></center>
+                    </form>
+                </div>
+            </div>
+            <!-- Flight Card 7 -->
+            <div class="flight-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h2 class="flight-name text-lg font-semibold">Flight to Singapore</h2>
+                    <p class="text-sm text-gray-600">Departure: 5:00 PM · Arrival: 10:00 PM</p>
+                    <p class="text-sm text-gray-600">
+                        Price: <span class="text-blue-500">₹30,000</span>
+                    </p>
+                    <!-- Book Now Button -->
+                    <form action="FlightsServlet" method="GET">
+                        <input type="hidden" name="user_id" value="${userId}"> <!-- Ensure this is set correctly -->
+                        <input type="hidden" name="flight_name" value="Flight to Singapore">
+                        <input type="hidden" name="departure_time" value="5:00 PM">
+                        <input type="hidden" name="arrival_time" value="10:00 PM">
+                        <input type="hidden" name="price" value="30000">
+                        <center><button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">BOOK NOW</button></center>
+                    </form>
+                </div>
+            </div>
+            <!-- Flight Card 8 -->
+            <div class="flight-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h2 class="flight-name text-lg font-semibold">Flight to Bangkok</h2>
+                    <p class="text-sm text-gray-600">Departure: 8:00 AM · Arrival: 12:00 PM</p>
+                    <p class="text-sm text-gray-600">
+                        Price: <span class="text-blue-500">₹25,000</span>
+                    </p>
+                    <!-- Book Now Button -->
+                    <form action="FlightsServlet" method="GET">
+                        <input type="hidden" name="user_id" value="${userId}"> <!-- Ensure this is set correctly -->
+                        <input type="hidden" name="flight_name" value="Flight to Bangkok">
+                        <input type="hidden" name="departure_time" value="8:00 AM">
+                        <input type="hidden" name="arrival_time" value="12:00 PM">
+                        <input type="hidden" name="price" value="25000">
+                        <center><button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">BOOK NOW</button></center>
+                    </form>
+                </div>
+            </div>
+            <!-- Flight Card 9 -->
+            <div class="flight-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-4">
+                    <h2 class="flight-name text-lg font-semibold">Flight to Toronto</h2>
+                    <p class="text-sm text-gray-600">Departure: 4:00 PM · Arrival: 8:00 PM</p>
+                    <p class="text-sm text-gray-600">
+                        Price: <span class="text-blue-500">₹45,000</span>
+                    </p>
+                    <!-- Book Now Button -->
+                    <form action="FlightsServlet" method="GET">
+                        <input type="hidden" name="user_id" value="${userId}"> <!-- Ensure this is set correctly -->
+                        <input type="hidden" name="flight_name" value="Flight to Toronto">
+                        <input type="hidden" name="departure_time" value="4:00 PM">
+                        <input type="hidden" name="arrival_time" value="8:00 PM">
+                        <input type="hidden" name="price" value="45000">
+                        <center><button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full">BOOK NOW</button></center>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- End of Flight Grid -->
+    </div>
+    <script>
+        document.getElementById('profileBtn').addEventListener('click', function() {
+            const dropdown = document.getElementById('profileDropdown');
+            // Toggle dropdown visibility
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+
+            // Fetch user details from ProfileServlet
+            fetch('ProfileServlet')
+                .then(response => {
+                    if (!response.ok) {
+                        console.error('HTTP error:', response.status);
+                        return { error: 'Failed to fetch user details' };
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Check if there's an error in the response
+                    if (data.error) {
+                        console.error('Error from server:', data.error);
+                        document.getElementById('profileName').innerText = `Error: ${data.error}`;
+                    } else {
+                        // Update the dropdown with fetched username
+                        document.getElementById('profileName').innerText = `Username: ${data.username}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching profile details:', error);
+                });
+        });
+    </script>
+</body>
+</html>

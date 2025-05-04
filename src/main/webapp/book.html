@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-step Booking Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(270deg, #030d15, #585470, #21214e);
+            background-size: 300% 300%;
+            animation: gradientAnimation 25s ease infinite;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #4CAF50; /* Green color for title */
+        }
+
+        h4 {
+            color: #4CAF50; /* Green color for step titles */
+            margin-bottom: 20px;
+        }
+
+        .step {
+            display: none; /* Initially hide all steps */
+        }
+
+        .step.active {
+            display: block; /* Show the active step */
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* Spacing between form groups */
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus,
+        select:focus {
+            border-color: #4CAF50; /* Highlight border on focus */
+            outline: none;
+        }
+
+        .btn {
+            width: 100%; /* Full-width buttons */
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #45a049; /* Darker green on hover */
+            transform: translateY(-2px); /* Slight lift effect on hover */
+        }
+
+        .btn-secondary {
+            background-color: #6c757d; /* Bootstrap secondary color */
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Darker secondary color on hover */
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: #28a745; /* Bootstrap success color */
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838; /* Darker success color on hover */
+            transform: translateY(-2px);
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Book Your Package</h2>
+
+    <!-- Multi-Step Form -->
+    <form id="bookingForm" action="BookServlet" method="POST">
+        
+        <!-- Step 1: Days, Source, Destination -->
+        <div class="step active" id="step1">
+            <h4>Step 1: Trip Details</h4>
+            <div class="form-group">
+                <label for="noOfDays">Number of Days:</label>
+                <input type="number" class="form-control" id="noOfDays" name="noOfDays" required>
+            </div>
+
+            <div class="form-group">
+                <label for="source">Source:</label>
+                <input type="text" class="form-control" id="source" name="source" required>
+            </div>
+
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <input type="text" class="form-control" id="destination" name="destination" required>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+        </div>
+
+        <!-- Step 2: Traveling Mode -->
+        <div class="step" id="step2">
+            <h4>Step 2: Travel Mode</h4>
+            <div class="form-group">
+                <label for="travelMode">Travel Mode:</label>
+                <select class="form-control" id="travelMode" name="travelMode">
+                    <option value="Bus" data-cost="500">Bus - ₹500</option>
+                    <option value="Train" data-cost="1000">Train - ₹1000</option>
+                    <option value="Flight" data-cost="5000">Flight - ₹5000</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+        </div>
+
+        <!-- Step 3: Hotel Selection -->
+        <div class="step" id="step3">
+            <h4>Step 3: Select Hotel</h4>
+            <div class="form-group">
+                <label for="hotel">Hotel Name:</label>
+                <select class="form-control" id="hotel" name="hotel">
+                    <option value="Hotel A" data-price="2000">Hotel A - ₹2000/night</option>
+                    <option value="Hotel B" data-price="3000">Hotel B - ₹3000/night</option>
+                    <option value="Hotel C" data-price="4000">Hotel C - ₹4000/night</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="totalExpense">Total Expense:</label>
+                <input type="text" class="form-control" id="totalExpense" name="totalExpense" readonly>
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+        </div>
+
+        <!-- Step 4: Payment Method -->
+        <div class="step" id="step4">
+            <h4>Step 4: Payment Method</h4>
+            <div class="form-group">
+                <label for="paymentMethod">Select Payment Method:</label>
+                <select class="form-control" id="paymentMethod" name="paymentMethod" required>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="Net Banking">Net Banking</option>
+                    <option value="UPI">UPI</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
+            <button type="submit" class="btn btn-success">Book Now</button>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    // Step navigation
+    let currentStep = 0;
+    const steps = document.querySelectorAll('.step');
+
+    function nextStep() {
+        if (currentStep < steps.length - 1) {
+            steps[currentStep].classList.remove('active');
+            currentStep++;
+            steps[currentStep].classList.add('active');
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 0) {
+            steps[currentStep].classList.remove('active');
+            currentStep--;
+            steps[currentStep].classList.add('active');
+        }
+    }
+
+    // Calculate total expense based on travel mode and hotel
+    const travelModeSelect = document.getElementById('travelMode');
+    const hotelSelect = document.getElementById('hotel');
+    const noOfDaysInput = document.getElementById('noOfDays');
+    const totalExpenseInput = document.getElementById('totalExpense');
+
+    function calculateTotalExpense() {
+        const travelCost = parseFloat(travelModeSelect.options[travelModeSelect.selectedIndex].getAttribute('data-cost')) || 0;
+        const hotelCostPerNight = parseFloat(hotelSelect.options[hotelSelect.selectedIndex].getAttribute('data-price')) || 0;
+        const noOfDays = parseInt(noOfDaysInput.value) || 0;
+        const totalExpense = (hotelCostPerNight * noOfDays) + travelCost;
+
+        totalExpenseInput.value = totalExpense.toFixed(2);
+    }
+
+    travelModeSelect.addEventListener('change', calculateTotalExpense);
+    hotelSelect.addEventListener('change', calculateTotalExpense);
+    noOfDaysInput.addEventListener('input', calculateTotalExpense);
+
+</script>
+
+</body>
+</html>

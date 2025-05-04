@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Foxico TravelX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .background-image {
+    background-image: url('https://images.pexels.com/photos/1420003/pexels-photo-1420003.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: background 0.8s ease; /* Smooth transition for background */
+}
+
+
+        .circle.active {
+            background-color: white;
+        }
+
+        .circle {
+            width: 15px;
+            height: 15px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transition: background 0.5s;
+        }
+
+        .destination-card {
+            transition: transform 0.3s ease; /* Smooth transition for card */
+        }
+
+        .destination-card:hover {
+            transform: scale(1.05); /* Slightly enlarge on hover */
+            z-index: 10; /* Bring to the front */
+        }
+
+        /* Shake effect */
+        .shake {
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+         #profileDropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      margin-top: 5px;
+      width: 200px;
+      background-color: white;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 15px;
+    }
+
+    #profileDropdown p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: black;
+    }
+
+    #profileDropdown a {
+      display: block;
+      text-decoration: none;
+      color: black;
+      padding: 8px 0;
+      text-align: center;
+      background-color: #f8f8f8;
+      border-radius: 4px;
+    }
+
+    #profileDropdown a:hover {
+      background-color: #ddd;
+    }
+    </style>
+</head>
+
+<body class="background-image text-white">
+    <div class="bg-black bg-opacity-50 min-h-screen flex flex-col">
+          <header class="flex justify-between items-center p-6">
+                    <div class="flex items-center">
+                        <img alt="Foxico Logo" class="mr-3" height="40" src="https://storage.googleapis.com/a1aa/image/Coz4TNygWQavCtmaLpzkEHxNCLz0YT7qkY0AhDeUeajfTJGnA.jpg" width="40" />
+                        <span class="text-xl font-bold">TravelX</span>
+                    </div>
+                    <nav class="flex space-x-6">
+<a class="hover:underline" href="travelling_mode.html">
+    <i class="fas fa-car"></i> Rideshare
+</a>                        <a class="hover:underline" href="Flight.html">Flights</a>
+                        <a class="hover:underline" href="Destination.html">Destinations</a>
+                        <a class="hover:underline" href="hotel.html"> Hotels</a>
+                        <a class="hover:underline" href="contact.html">Contact</a>
+                        <a class="hover:underline" href="bookings.jsp"><i class="fas fa-check-circle"></i>Booked</a>                    </nav>
+                      <div class="flex items-center space-x-4">
+            <i class="fas fa-search" href="#"></i>
+            <nav>
+    <div class="relative inline-block">
+  <!-- Profile Button with Icon -->
+  <button id="profileBtn" class="text-white font-bold py-2 px-4 rounded">
+    <i class="fas fa-user-circle fa-2x"></i> <!-- Profile Icon -->
+  </button>
+
+  <!-- Dropdown that displays user details and logout option -->
+  <div id="profileDropdown" style="display: none; position: absolute; right: 0; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <p id="profileName">Name: Loading...</p>
+    <form action="LogoutServlet" method="post">
+        <button type="submit" class="mt-6 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
+            Logout
+        </button>
+    </form>
+</div>
+
+</div>
+    
+  </nav>
+        </div>
+                </header>
+                <main class="p-6">
+        <h1 class="text-4xl font-light text-gray-800" >Welcome to TravelX!</h1>
+        <p class="mt-4" >Explore and book your travel packages.</p>
+        <!-- Logout Button -->
+        
+    </main>
+        <main class="flex-grow flex flex-col justify-center items-center text-center px-6">
+            <div id="hero">
+                <h1 class="text-6xl font-bold mb-4">INDONESIA</h1>
+                <p class="max-w-2xl mb-8">
+                    As the largest archipelagic country in the world, Indonesia is blessed with so many different people, cultures, customs, traditions, artworks, food, animals, plants, landscapes, and everything that made it almost like 100 (or even 200) countries melted beautifully into one.
+                </p>
+            </div>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full flex items-center" onclick="explore()">
+                Explore
+                <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </main>
+        <section class="flex justify-center items-center space-x-4 mt-8 px-6">
+            <div class="flex space-x-4 overflow-x-auto" id="destinationSlider">
+                <div class="relative w-64 h-96 bg-white bg-opacity-20 rounded-lg overflow-hidden destination-card" id="card-0">
+                    <img alt="Buddha temple, Thailand" class="w-full h-full object-cover" src="https://storage.googleapis.com/a1aa/image/Em0H9tCdbzZMGN8fqE1eZ7xkmtCVtN8ne1uyu7ONZfr6nSMOB.jpg" />
+                    <div class="absolute top-0 left-0 p-4">
+                        <h3 class="text-lg font-bold">Buddha Temple, Thailand</h3>
+                    </div>
+                    <div class="absolute top-0 right-0 p-4">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                </div>
+                <div class="relative w-64 h-96 bg-white bg-opacity-20 rounded-lg overflow-hidden destination-card" id="card-1">
+                    <img alt="Broken Beach, Bali" class="w-full h-full object-cover" src="https://storage.googleapis.com/a1aa/image/6oLNHC5iIL59LtkN3pk4reYVD8sClZ9kmsFnk5OyFAlAVixJA.jpg" />
+                    <div class="absolute top-0 left-0 p-4">
+                        <h3 class="text-lg font-bold">Broken Beach, Bali</h3>
+                    </div>
+                    <div class="absolute top-0 right-0 p-4">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                </div>
+                <div class="relative w-64 h-96 bg-white bg-opacity-20 rounded-lg overflow-hidden destination-card" id="card-2">
+                    <img alt="Kerala" class="w-full h-full object-cover" src="https://storage.googleapis.com/a1aa/image/Yevon8PSEo1fGUCVcrxCNWzp0fuFjFWJfF7GXeRM6VBuPlYcC.jpg" />
+                    <div class="absolute top-0 left-0 p-4">
+                        <h3 class="text-lg font-bold">Kerala</h3>
+                    </div>
+                </div>
+                <!-- New Cards -->
+                <div class="relative w-64 h-96 bg-white bg-opacity-20 rounded-lg overflow-hidden destination-card" id="card-3">
+                    <img alt="Mount Fuji, Japan" class="w-full h-full object-cover" src="https://images.pexels.com/photos/6730021/pexels-photo-6730021.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                    <div class="absolute top-0 left-0 p-4">
+                        <h3 class="text-lg font-bold">Mount Fuji, Japan</h3>
+                    </div>
+                </div>
+                <div class="relative w-64 h-96 bg-white bg-opacity-20 rounded-lg overflow-hidden destination-card" id="card-4">
+                    <img alt="Santorini, Greece" class="w-full h-full object-cover" src="https://storage.googleapis.com/a1aa/image/6oLNHC5iIL59LtkN3pk4reYVD8sClZ9kmsFnk5OyFAlAVixJA.jpg" />
+                    <div class="absolute top-0 left-0 p-4">
+                        <h3 class="text-lg font-bold">Santorini, Greece</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="flex justify-between items-center p-6 mt-8">
+            <div class="flex items-center space-x-2">
+                <span>01</span>
+                <div class="w-8 h-1 bg-white"></div>
+                <span>05</span>
+            </div>
+            <div class="flex space-x-4">
+                <button class="p-2 bg-white bg-opacity-20 rounded-full">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="p-2 bg-white bg-opacity-20 rounded-full">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
+ <script>
+ document.getElementById('profileBtn').addEventListener('click', function() {
+	    const dropdown = document.getElementById('profileDropdown');
+	    
+	    // Toggle dropdown visibility
+	    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+
+	    // Fetch user details from ProfileServlet
+	    fetch('ProfileServlet')
+	        .then(response => {
+	            if (!response.ok) {
+	                console.error('HTTP error:', response.status);
+	                return { error: 'Failed to fetch user details' };
+	            }
+	            return response.json();
+	        })
+	        .then(data => {
+	            // Check if there's an error in the response
+	            if (data.error) {
+	                console.error('Error from server:', data.error);
+	                document.getElementById('profileName').innerText = `Error: ${data.error}`;
+	                document.getElementById('profileEmail').innerText = '';
+	            } else {
+	                // Update the dropdown with fetched username
+	                document.getElementById('profileName').innerText = `Username: ${data.username}`;
+	                document.getElementById('profileEmail').innerText = ''; // Not used anymore
+	            }
+	        })
+	        .catch(error => {
+	            console.error('Error fetching profile details:', error);
+	        });
+	});
+
+  </script>
+    <script>
+        let currentDestination = 0;
+
+        function explore() {
+            const destinations = [
+                {
+                    name: "INDONESIA",
+                    description: "Explore the beauty of Indonesia, with its diverse culture, landscapes, and history.",
+                    background: 'https://storage.googleapis.com/a1aa/image/Em0H9tCdbzZMGN8fqE1eZ7xkmtCVtN8ne1uyu7ONZfr6nSMOB.jpg' // Indonesia background
+                },
+                {
+                    name: "THAILAND",
+                    description: "Discover Thailand, where vibrant cities meet serene temples and beaches.",
+                    background: 'https://storage.googleapis.com/a1aa/image/6oLNHC5iIL59LtkN3pk4reYVD8sClZ9kmsFnk5OyFAlAVixJA.jpg' // Thailand background
+                },
+                {
+                    name: "BALI",
+                    description: "Bali is a tropical paradise with stunning beaches and spiritual vibes.",
+                    background: 'https://storage.googleapis.com/a1aa/image/Yevon8PSEo1fGUCVcrxCNWzp0fuFjFWJfF7GXeRM6VBuPlYcC.jpg' // Bali background
+                },
+                {
+                    name: "JAPAN",
+                    description: "Experience the serene beauty of Japan, from cherry blossoms to vibrant cities.",
+                    background: 'https://storage.googleapis.com/a1aa/image/6oLNHC5iIL59LtkN3pk4reYVD8sClZ9kmsFnk5OyFAlAVixJA.jpg' // Japan background
+                },
+                {
+                    name: "GREECE",
+                    description: "Discover the stunning landscapes and ancient history of Greece.",
+                    background: 'https://storage.googleapis.com/a1aa/image/6oLNHC5iIL59LtkN3pk4reYVD8sClZ9kmsFnk5OyFAlAVixJA.jpg' // Greece background
+                }
+            ];
+
+            currentDestination = (currentDestination + 1) % destinations.length;
+
+            // Update Hero Section
+            const hero = document.getElementById("hero");
+            hero.querySelector("h1").textContent = destinations[currentDestination].name;
+            hero.querySelector("p").textContent = destinations[currentDestination].description;
+
+            // Update Background
+            document.body.style.backgroundImage = `url(${destinations[currentDestination].background})`;
+
+            // Apply shake effect to the current destination card
+            const cards = document.querySelectorAll('.destination-card');
+            cards.forEach((card, index) => {
+                if (index === currentDestination) {
+                    card.classList.add('shake');
+                    // Remove shake class after animation ends to allow re-trigger
+                    setTimeout(() => {
+                        card.classList.remove('shake');
+                    }, 500);
+                }
+            });
+        }
+    </script>
+    <!-- Recent Holiday Locations -->
+  <section class="py-16 bg-white">
+          <div class="container mx-auto text-center">
+           <h3 class="text-2xl font-bold mb-8" style="color: #080007;">
+            Recent holiday locations
+           </h3>
+           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+             <img alt="Interior view of Thalie 5" class="w-full h-48 object-cover rounded-lg mb-4" height="300" src="https://storage.googleapis.com/a1aa/image/FuYX8M41bkYBJtGsWxUkmruyjK2BUSkOy2LtKG95teyImixJA.jpg" width="400"/>
+             <h4 class="text-xl font-bold mb-2" style="color: #080007;">
+              Thalie 5
+             </h4>
+             <p class="text-gray-700 mb-4">
+              Thalie 5 is located on the exclusive Belle Rivière estate, which is home to several of Luxury Retreats' finest villas in Mauritius.
+             </p>
+             <div class="flex justify-between items-center mb-4">
+              <div class="flex space-x-2">
+               <i class="fas fa-bed" style="color: #080007;">
+               </i>
+               <i class="fas fa-bath" style="color: #080007;">
+               </i>
+               <i class="fas fa-wifi" style="color: #080007;">
+               </i>
+              
+              </div>
+             </div>
+            <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">
+    BOOK NOW
+</a>
+
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+             <img alt="View of Montage Kapalua" class="w-full h-48 object-cover rounded-lg mb-4" height="300" src="https://storage.googleapis.com/a1aa/image/8TZydOR29B6VG92GP1JXbchp3M5IHSaAQpbO6DkjmKtETx4E.jpg" width="400"/>
+             <h4 class="text-xl font-bold mb-2" style="color: #080007;">
+              Montage Kapalua
+             </h4>
+             <p class="text-gray-700 mb-4">
+              Located only a jaunt from Kahului airport, you'll be greeted by an easy and scenic drive along the West Maui Mountains and crystal clear waters.
+             </p>
+             <div class="flex justify-between items-center mb-4">
+              <div class="flex space-x-2">
+               <i class="fas fa-bed" style="color: #080007;">
+               </i>
+               <i class="fas fa-bath" style="color: #080007;">
+               </i>
+               <i class="fas fa-wifi" style="color: #080007;">
+               </i>
+             
+              </div>
+             </div>
+             <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">
+    BOOK NOW
+</a>
+
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+             <img alt="View of Casa Del Agua" class="w-full h-48 object-cover rounded-lg mb-4" height="300" src="https://storage.googleapis.com/a1aa/image/wiYhll9VkSoGLpdv9s8vo41ShgHxMd7he53pm0gl3HfQMFjTA.jpg" width="400"/>
+             <h4 class="text-xl font-bold mb-2" style="color: #080007;">
+              Casa Del Agua
+             </h4>
+             <p class="text-gray-700 mb-4">
+              After a breakfast catered to your taste and served at your leisure, relax in a hammock under the shade of a palm tree or let the...
+             </p>
+             <div class="flex justify-between items-center mb-4">
+              <div class="flex space-x-2">
+               <i class="fas fa-bed" style="color: #080007;">
+               </i>
+               <i class="fas fa-bath" style="color: #080007;">
+               </i>
+               <i class="fas fa-wifi" style="color: #080007;">
+               </i>
+              
+              </div>
+             </div>
+            <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">
+    BOOK NOW
+</a>
+
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                    <img alt="View of Casa Jaguar" class="w-full h-48 object-cover rounded-lg mb-4" height="300" src="https://storage.googleapis.com/a1aa/image/pihH8JrPFgpvHZNcXUeRgIHljf7GZEyKYTmfbGrNIjeXxUMOB.jpg" width="400"/>
+                    <h4 class="text-xl font-bold mb-2" style="color: #080007;">
+                     Casa Jaguar
+                    </h4>
+                    <p class="text-gray-700 mb-4">
+                     Sleek and sophisticated like the animal for which it has been named, Casa Jaguar is an immaculate tropical luxury villa located...
+                    </p>
+                    <div class="flex justify-between items-center mb-4">
+                     <div class="flex space-x-2">
+                      <i class="fas fa-bed" style="color: #080007;">
+                      </i>
+                      <i class="fas fa-bath" style="color: #080007;">
+                      </i>
+                      <i class="fas fa-wifi" style="color: #080007;">
+                      </i>
+                     
+                     </div>
+                    </div>
+                   <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">
+    BOOK NOW
+</a>
+
+                   </div>
+                   <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                    <img alt="View of Casa Jaguar" class="w-full h-48 object-cover rounded-lg mb-4" height="300" src="https://storage.googleapis.com/a1aa/image/pihH8JrPFgpvHZNcXUeRgIHljf7GZEyKYTmfbGrNIjeXxUMOB.jpg" width="400"/>
+                    <h4 class="text-xl font-bold mb-2" style="color: #080007;">
+                     Casa Jaguar
+                    </h4>
+                    <p class="text-gray-700 mb-4">
+                     Sleek and sophisticated like the animal for which it has been named, Casa Jaguar is an immaculate tropical luxury villa located...
+                    </p>
+                    <div class="flex justify-between items-center mb-4">
+                     <div class="flex space-x-2">
+                      <i class="fas fa-bed" style="color: #080007;">
+                      </i>
+                      <i class="fas fa-bath" style="color: #080007;">
+                      </i>
+                      <i class="fas fa-wifi" style="color: #080007;">
+                      </i>
+                     
+                     </div>
+                    </div>
+                   <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">
+    BOOK NOW
+</a>
+
+                   </div>
+                   <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+             <img alt="View of Casa Jaguar" class="w-full h-48 object-cover rounded-lg mb-4" height="300" src="https://storage.googleapis.com/a1aa/image/pihH8JrPFgpvHZNcXUeRgIHljf7GZEyKYTmfbGrNIjeXxUMOB.jpg" width="400"/>
+             <h4 class="text-xl font-bold mb-2" style="color: #080007;">
+              Casa Jaguar
+             </h4>
+             <p class="text-gray-700 mb-4">
+              Sleek and sophisticated like the animal for which it has been named, Casa Jaguar is an immaculate tropical luxury villa located...
+             </p>
+             <div class="flex justify-between items-center mb-4">
+              <div class="flex space-x-2">
+               <i class="fas fa-bed" style="color: #080007;">
+               </i>
+               <i class="fas fa-bath" style="color: #080007;">
+               </i>
+               <i class="fas fa-wifi" style="color: #080007;">
+               </i>
+              
+              </div>
+             </div>
+            <a class="bg-red-500 text-white px-4 py-2 rounded-full" href="book.html">
+    BOOK NOW
+</a>
+
+            </div>
+            
+           </div>
+          </div>
+</div>
+
+
+         </section>
+         
+    <!-- Why We Are Different -->
+  <section class="py-16 bg-gray-100">
+          <div class="container mx-auto text-center">
+           <h3 class="text-2xl font-bold mb-8" style="color: #080007;">
+            Why we are different
+           </h3>
+           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="flex flex-col items-center">
+             <div class="bg-green-500 text-white p-4 rounded-full mb-4">
+              <i class="fas fa-cogs text-2xl">
+              </i>
+             </div>
+             <h4 class="text-xl font-bold mb-2" style="color: #080007;">
+              Tailor-Made Packages
+             </h4>
+             <p class="text-gray-700">
+              When it comes to delivering the best planned holiday package to you, we strive to exceed your expectations. For us, it has to be spot-on. We do what we do in the ideal way possible.
+             </p>
+            </div>
+            <div class="flex flex-col items-center">
+             <div class="bg-green-500 text-white p-4 rounded-full mb-4">
+              <i class="fas fa-star text-2xl">
+              </i>
+             </div>
+             <h4 class="text-xl font-bold mb-2" style="color: #080007;">
+              Best Experience
+             </h4>
+             <p class="text-gray-700">
+              At Purplerain Holidays, we choose to put forth an essence of our own expertise and firsthand experiences into our services and method of planning.
+             </p>
+            </div>
+            <div class="flex flex-col items-center">
+             <div class="bg-green-500 text-white p-4 rounded-full mb-4">
+              <i class="fas fa-gem text-2xl">
+              </i>
+             </div>
+             <h4 class="text-xl font-bold mb-2" style="color: #080007;">
+              Exquisite Service
+             </h4>
+             <p class="text-gray-700">
+              From the moment you make the first call to enquiry, our services are geared for you. From the time of booking, to your stay and well after the trip as well, we will guide you and be at your back.
+             </p>
+            </div>
+           </div>
+          </div>
+         </section>
+  
+    <!-- Footer -->
+  <footer class="bg-black text-white py-8">
+          <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+           <div>
+            <h5 class="font-bold mb-4">
+             Information
+            </h5>
+            <ul>
+             <li>
+              <a class="text-gray-400" href="#">
+               About us
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Online enquiry
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Call us
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               General enquiries
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Booking conditions
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Privacy policy
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Refund policy
+              </a>
+             </li>
+            </ul>
+           </div>
+           <div>
+            <h5 class="font-bold mb-4">
+             Experiences
+            </h5>
+            <ul>
+             <li>
+              <a class="text-gray-400" href="#">
+               Beach
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Adventure
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Wildlife
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Honeymoon
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Culture &amp; heritage
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Hill station
+              </a>
+             </li>
+            </ul>
+           </div>
+           <div>
+            <h5 class="font-bold mb-4">
+             Themes
+            </h5>
+            <ul>
+             <li>
+              <a class="text-gray-400" href="#">
+               Party
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Wedding
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Group tours
+              </a>
+             </li>
+            </ul>
+           </div>
+           <div>
+            <h5 class="font-bold mb-4">
+             Popular destinations
+            </h5>
+            <ul>
+             <li>
+              <a class="text-gray-400" href="#">
+               Leh-Ladakh
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Manali
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Ooty
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Alleppey
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Darjeeling
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Goa
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Munnar
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Coorg
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Mysore
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Gur
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Kabini
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Jaipur
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Kodaikanal
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Agra
+              </a>
+             </li>
+             <li>
+              <a class="text-gray-400" href="#">
+               Shimla
+              </a>
+             </li>
+            </ul>
+           </div>
+          </div>
+          <div class="container mx-auto mt-8 text-center">
+           <p>
+            Phone: +91-80-41127931
+           </p>
+           <p>
+            Email: info@exactdesign.co
+           </p>
+           <p>
+            Address: 1st Main, Bucharest, 2nd Stage Raiffeisen Tower, Bucharest - 400040, Romania
+           </p>
+          </div>
+         </footer>
+    
+</body>
+
+</html>
